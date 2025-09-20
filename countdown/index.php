@@ -1,4 +1,23 @@
 <?php
+$secPerMin = 60;
+$secPerHour = 60 * $secPerMin;
+$secPerDay = 24 * $secPerHour;
+$secPerYear = 365 * $secPerDay;
+
+$now = time();
+$endOfSemester = mktime(0, 0,0, 12, 19, 2025);
+
+$seconds = $endOfSemester - $now;
+
+$years = floor($seconds / $secPerYear);
+$seconds = $seconds - ($years * $secPerYear);
+$days = floor($seconds / $secPerDay);
+$seconds = $seconds - ($days * $secPerDay);
+
+$hours = floor($seconds / $secPerHour);
+$seconds = $seconds - ($hours * $secPerHour);
+$minutes = floor($seconds / $secPerMin);
+$seconds = $seconds - ($minutes * $secPerMin);
 
 ?><!doctype html>
 <html lang="en">
@@ -20,7 +39,11 @@ include "../includes/header.php"
     include "../includes/nav.php"
     ?>
     <main>
-        <p>To do: Put file content here</p>
+        <span> Years: <?=$years?></span>
+        <span> Days: <?=$days?></span>
+        <span> Hours: <?=$hours?></span>
+        <span> Minutes: <?=$minutes?></span>
+        <span> Seconds: <?=$seconds?></span>
     </main>
 
 </div>
