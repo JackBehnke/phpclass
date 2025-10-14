@@ -1,22 +1,22 @@
 <?php
 session_start();
-$roll = [
-        '<img src="dice_1.png" height="200">',
-        '<img src="dice_2.png" height="200">',
-        '<img src="dice_3.png" height="200">',
-        '<img src="dice_4.png" height="200">',
-        '<img src="dice_5.png" height="200">',
-        '<img src="dice_6.png" height="200">'
-];
 
-$answer = "Ask me a question and I will provide the answer to your future";
-$question = trim($_POST['question'] ?? '');
-
-
-$randomIndex = mt_rand(0, count($roll) - 1);
-$answer = $roll[$randomIndex];
-$_SESSION['question'] = $question;
-
+$roll1 = mt_rand(1, 6);
+$roll2 = mt_rand(1, 6);
+$roll3 = mt_rand(1, 6);
+$roll4 = mt_rand(1, 6);
+$roll5 = mt_rand(1, 6);
+$yourroll = $roll1 + $roll2;
+$opponentroll = $roll3 + $roll4 + $roll5;
+if($yourroll < $opponentroll){
+$result = "You Lose!";
+}
+if($yourroll > $opponentroll){
+    $result = "You Win!";
+}
+if ($yourroll == $opponentroll){
+    $result = "Tied!";
+}
 
 ?><!doctype html>
 <html lang="en">
@@ -41,10 +41,19 @@ include "../includes/header.php"
         <h2>Dice Roll!</h2>
 
         <form method="post">
-            <input type="text" name="question" id="question" value="<?=$question?>">
+
             <input type="submit" value="Reroll">
         </form>
-        <p class="roll"><?=$roll?></p>
+        <h3>Your Roll</h3>
+        <p>Your Score: <?=$yourroll?></p>
+        <p class="roll1"><img src="/img/dice_<?=$roll1?>.png"></p>
+        <p class="roll2"><img src="/img/dice_<?=$roll2?>.png"></p>
+        <h3>Opponents Roll</h3>
+        <p>Opponents Score: <?=$opponentroll?></p>
+        <p class="roll3"><img src="/img/dice_<?=$roll3?>.png"></p>
+        <p class="roll4"><img src="/img/dice_<?=$roll4?>.png"></p>
+        <p class="roll5"><img src="/img/dice_<?=$roll5?>.png"></p>
+        <h1><?=$result?></h1>
     </main>
 
 </div>
