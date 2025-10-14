@@ -1,20 +1,21 @@
 
 <?php
+$errormessage = "";
 
-    if(!empty($_GET["txtTitle"]) && !empty($_GET["txtRating"])) {
+    if(!empty($_POST["txtTitle"]) && !empty($_POST["txtRating"])) {
         include "../includes/db.php";
         $con = getDBConnection();
 
-        $txtTitle = $_GET["txtTitle"];
-        $txtRating = $_GET["txtRating"];
+        $txtTitle = $_POST["txtTitle"];
+        $txtRating = $_POST["txtRating"];
         try {
             $query = "INSERT INTO movielist (MovieTitle, MovieRating) VALUES (?, ?);";
             $stmt = mysqli_prepare($con, $query);
             mysqli_stmt_bind_param($stmt, "ss", $txtTitle, $txtRating);
             mysqli_stmt_execute($stmt);
-            header("Location:index.php");
+            header("Location: /movielist");
         } catch (mysqli_sql_exception $ex) {
-            echo $ex;
+            $errormessage = $ex;
         }
     }
 ?><!doctype html>
@@ -27,32 +28,7 @@
     <title>Jack's Website</title>
 
     <link rel="stylesheet" href="/Css/base.css">
-    <style>
-        .grid-header{ grid-area: grid-header; }
-        .movie-title{ grid-area: movie-title; }
-        .title-input{ grid-area: title-input; }
-        .movie-rating{ grid-area: movie-rating; }
-        .rating-input{ grid-area: rating-input; }
-        .grid-footer{ grid-area: grid-footer; }
-
-        .grid-containter{
-            display: grid;
-            grid-template-areas:
-            "grid-header grid-header"
-            "movie-title title-input"
-            "movie-rating rating-input"
-            "grid-footer grid-footer"
-        ;
-            border: 1px solid black
-        }
-
-        .grid-containter > div {
-            border: 1px solid black;
-            text-align: center;
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="./css/grid.css">
 </head>
 <body>
 <?php
@@ -63,7 +39,7 @@ include "../includes/header.php"
     include "../includes/nav.php"
     ?>
     <main>
-<form method="get">
+<form method="post">
     <div class="grid-containter">
         <div class="grid-header">
             <h3>Add New Movie</h3>
@@ -79,6 +55,10 @@ include "../includes/header.php"
         </div>
         <div class="rating-input">
         <input type="text" name="txtRating" id="txtRating">
+        </div>
+
+        <div class="error <?php echo $errormessage == "" ? "hidden" : " " ;?>">
+            <p><?=$errormessage;?></p>
         </div>
         <div class="grid-footer">
         <input type="submit" value="Add Movie">

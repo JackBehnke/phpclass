@@ -1,0 +1,30 @@
+.grid-header{ grid-area: grid-header; }
+.movie-title{ grid-area: movie-title; }
+.title-input{ grid-area: title-input; }
+.movie-rating{ grid-area: movie-rating; }
+.rating-input{ grid-area: rating-input; }
+.error-message {grid-area: error-message; }
+.grid-footer{ grid-area: grid-footer; }
+
+.grid-containter{
+    display: grid;
+    grid-template-areas:
+            "grid-header grid-header"
+            "movie-title title-input"
+            "movie-rating rating-input"
+            "error-message error-message"
+            "grid-footer grid-footer"
+;
+    border: 1px solid black
+}
+
+.grid-containter > div {
+    border: 1px solid black;
+    text-align: center;
+}
+.error p{
+    color: red;
+}
+.hidden{
+    display: none;
+}

@@ -5,6 +5,7 @@ $isCountdown = $_SERVER['REQUEST_URI'] == '/countdown/' ? 'selected' : '';
 $isMagic8Ball = $_SERVER['REQUEST_URI'] == '/magic-8ball/' ? 'selected' : '';
 $isDice = $_SERVER['REQUEST_URI'] == '/dice/' ? 'selected' : '';
 $isMovieList = $_SERVER['REQUEST_URI'] == '/movielist/' ? 'selected' : '';
+$isCustomerDatabase =  $_SERVER['REQUEST_URI'] == '/Customer-Database/' ? 'selected' : '';
 ?><nav>
 
 
@@ -17,5 +18,6 @@ $isMovieList = $_SERVER['REQUEST_URI'] == '/movielist/' ? 'selected' : '';
         </li>
         <li class="<?=$isDice?>"><a href="/Dice">Dice</a></li>
         <li class="<?=$isMovieList?>"><a href="/movielist">Movie List</a></li>
+        <li class="<?=$isCustomerDatabase?>"><a href="/Cutomer-Database">Customer Database</a></li>
     </ul>
 </nav>

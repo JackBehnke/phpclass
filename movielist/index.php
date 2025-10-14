@@ -18,6 +18,12 @@
             margin: 10px auto;
             table-layout: fixed;
         }
+        table a {
+            color: #1256d5;
+        }
+        table a:hover{
+            text-decoration: underline;
+        }
         th, td{
             border: 1px solid black;
             padding: .2rem;
@@ -34,7 +40,7 @@ include "../includes/header.php"
     ?>
     <main>
         <h1>My Movie List</h1>
-        <table>
+        <table class="movies">
             <tr>
                 <th>ID</th>
                 <th>Title</th>
@@ -51,7 +57,9 @@ include "../includes/header.php"
                 $movieRating = $row["MovieRating"];
             echo "<tr>";
             echo "    <td>$movieID   </td>";
-            echo "    <td>$movieTitle</td>";
+            echo "    <td>";
+            echo "<a href=\"movie.php?id=$movieID\">$movieTitle</a>";
+            echo "</td>";
             echo "    <td>$movieRating</td>";
             echo "</tr>";
             }
