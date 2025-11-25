@@ -1,9 +1,19 @@
 <?php
+
+
+
+if(empty($_GET["id"])){
+    header("location: /customer.php");
+}
+
+$CustomerID = $_GET["id"];
+
+include "../includes/db.php";
+$con = getDBConnection();
+
 //do the update (update the db)
-if(!empty($_POST["txtFirst"] && !empty($_POST["txtLast"]) && !empty($_POST["txtAddress"]) && !empty($_POST["txtCity"]) && !empty($_POST["txtState"]) && !empty($_POST["txtZipcode"]) && !empty($_POST["txtPhone"]) && !empty($_POST["txtEmail"]) && !empty($_POST["txtPassword"]))) {
+if(!empty($_POST["txtFirst"]) && !empty($_POST["txtLast"]) && !empty($_POST["txtAddress"]) && !empty($_POST["txtCity"]) && !empty($_POST["txtState"]) && !empty($_POST["txtZipcode"]) && !empty($_POST["txtPhone"]) && !empty($_POST["txtEmail"]) && !empty($_POST["txtPassword"])) {
 
-
-    $CustomerID = $_POST["txtID"];
     $firstName = $_POST["txtFirst"];
     $lastName = $_POST["txtLast"];
     $address = $_POST["txtAddress"];
@@ -14,8 +24,6 @@ if(!empty($_POST["txtFirst"] && !empty($_POST["txtLast"]) && !empty($_POST["txtA
     $email = $_POST["txtEmail"];
     $password = $_POST["txtPassword"];
     try {
-        include '../includes/db.php';
-
         $query = "UPDATE Customerdatabase SET Firstname = ?, Lastname = ?, Address = ?, City = ?, State = ?, Zip_Code = ?, Phone = ?, Email = ?, Password = ? WHERE CutomerID = ?;";
         $stmt = mysqli_prepare($con, $query);
         mysqli_stmt_bind_param($stmt, "sssssissii", $firstName, $lastName, $address, $city, $state, $zip_code, $phone, $email, $password, $CustomerID);
@@ -26,13 +34,7 @@ if(!empty($_POST["txtFirst"] && !empty($_POST["txtLast"]) && !empty($_POST["txtA
 
     }
 }
-if(empty($_GET["id"])){
-    header("location: /customer.php");
-}
-include "../includes/db.php";
-$con = getDBConnection();
 
-$CustomerID = $_GET["id"];
 
 try {
     $query = "SELECT * FROM Customerdatabase WHERE CutomerID = ?";

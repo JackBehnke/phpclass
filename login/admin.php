@@ -3,32 +3,39 @@ session_start();
 $memberKey = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
 $errormessage = "";
 $formSubmitted = isset($_POST['hidden']);
+
+include "../includes/db.php";
+$con = getDBConnection();
+
 $ADMIN_ID = 3;
 if(!isset($_SESSION['userID']) || ($_SESSION['roleID'] != $ADMIN_ID)){
-    header("location: /login");
+
 }
 $txtUsername = $_POST["txtUsername"];
-$txtEmail = $_POST["txtemail"];
+$txtEmail = $_POST["txtEmail"];
 $txtPassword = $_POST["txtPassword"];
 $txtPassword2 = $_POST["txtPassword2"];
 $cboRole = $_POST["cboRole"];
+//todo: check username, email, etc... (separate else-if's)
 if($formSubmitted) {
-
-if($txtUsername < 4){
-    $errormessage = "Please make your username at least 4 characters long!";
-}
-
-    if ($txtPassword != $txtPassword2) {
-        $errormessage = "Your Password must match verify password";
-    } //todo: check username, email, etc... (separate else-if's
+    if(strlen($txtUsername) < 5){
+        $errormessage = "Your username has to be at least 5 characters!";
+    }
+    else if(strlen($txtPassword) < 5){
+        $errormessage = "Your Password has to be at least 5 characters!";
+    }
+    else if($txtPassword !== $txtPassword2){
+        $errormessage = "Your Password has to equal confirm Password!";
+    }
+    else if($txtEmail == ""){
+        $errormessage = "You must need an Email!";
+    }
     else {
-        include "../includes/db.php";
-        $con = getDBConnection();
-
 
         try {
             $hashedPassword = md5($txtPassword . $memberKey);
-            $query = "INSERT INTO members (memberName, memberemail, memberpassword, memberkey, roleid) VALUES (?, ?, ?, ?, ?);";
+
+            $query = "INSERT INTO members (memberName, memberEmail, memberPassword, memberKey, roleID) VALUES (?, ?, ?, ?, ?);";
             $stmt = mysqli_prepare($con, $query);
             mysqli_stmt_bind_param($stmt, "sssss", $txtUsername, $txtEmail, $hashedPassword, $memberKey, $cboRole);
             mysqli_stmt_execute($stmt);
@@ -42,6 +49,7 @@ if($txtUsername < 4){
             $errormessage = $ex;
         }
     }
+
 }
 
 
@@ -84,7 +92,7 @@ include "../includes/header.php"
     ?>
     <main>
         <form method="post">
-            <div class="grid-containter">
+            <div class="grid-containter"><!--I changed the name back only because it works with this name, sorry!-->
                 <div class="grid-header">
                     <h3>Add new member</h3>
                 </div>
@@ -95,10 +103,10 @@ include "../includes/header.php"
                     <input type="text" name="txtUsername" id="txtUsername" value="<?=$txtUsername?>">
                 </div>
                 <div class="email">
-                    <label for="txtemail">Email</label>
+                    <label for="txtEmail">Email</label>
                 </div>
                 <div class="email-input">
-                    <input type="text" name="txtemail" id="txtemail" value="<?=$txtEmail?>">
+                    <input type="text" name="txtEmail" id="txtEmail" value="<?=$txtEmail?>">
                 </div>
                 <div class="password">
                     <label for="txtPassword">Password</label>
@@ -117,9 +125,25 @@ include "../includes/header.php"
                 </div>
                 <div class="role-input">
                    <select id="cboRole" name="cboRole">
-                       <option value="1">Member</option>
-                       <option value="2">Operator</option>
-                       <option value="3">Admin</option>
+                       <?php
+                       try{
+                           $rs = mysqli_query($con, "Select * from roles");
+                           if(!$rs){
+                               echo "Query Failed" . mysqli_error($con);
+                           }
+
+
+                           while($row = mysqli_fetch_array($rs)){
+                               $roleID = $row['roleID'];
+                               $rolename = $row['rolename'];
+
+                               echo "<option value='$roleID'>$rolename</option>";
+                           }
+                      }catch (mysqli_sql_exception $ex){
+                          echo $ex;
+                      }
+
+                      ?>
                    </select>
                 </div>
 
