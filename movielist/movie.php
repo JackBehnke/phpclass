@@ -99,4 +99,4 @@ include "../includes/footer.php"
 </script>
 </body>
 </html>
-header("location: /login");
+

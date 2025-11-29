@@ -9,7 +9,7 @@ $con = getDBConnection();
 
 $ADMIN_ID = 3;
 if(!isset($_SESSION['userID']) || ($_SESSION['roleID'] != $ADMIN_ID)){
-
+    header("location: /login");
 }
 $txtUsername = $_POST["txtUsername"];
 $txtEmail = $_POST["txtEmail"];

@@ -1,5 +1,31 @@
 <?php
+include "../includes/db.php";
+$secret = "Secret"; //<-- for password
+$con = getDBConnection();
+$result = mysqli_query($con, "SELECT * FROM Customerdatabase");
+$row = mysqli_fetch_array($result);
+$customerID = $row["CutomerID"];
+$firstName = $row["Firstname"];
+$lastName = $row["Lastname"];
+$address = $row["Address"];
+$city = $row["City"];
+$state = $row["State"];
+$zipCode = $row["Zip_Code"];
+$phone = $row["Phone"];
+$email = $row["Email"];
+$password = $row["Password"];
+if ($row != null) {
 
+    $hashedPassword = $row["memberPassword"];
+    $memberKey = $row["memberKey"];
+
+    if (md5($password . $memberKey) == $hashedPassword) {
+//password matched
+
+        $_SESSION['userID'] = $row["memberID"];
+        $_SESSION["roleID"] = $row["roleID"];
+    }
+}
 ?><!doctype html>
 <html lang="en">
 <head>
@@ -54,11 +80,9 @@ include "../includes/header.php"
            <th>Password</th>
            </tr>
            <?php
-           include "../includes/db.php";
            $con = getDBConnection();
            $result = mysqli_query($con, "SELECT * FROM Customerdatabase");
            while($row = mysqli_fetch_array($result)){
-
                $customerID = $row["CutomerID"];
                $firstName = $row["Firstname"];
                $lastName = $row["Lastname"];
@@ -82,7 +106,7 @@ include "../includes/header.php"
                echo "<td>$zipCode</td>";
                echo "<td>$phone</td>";
                echo "<td>$email</td>";
-               echo "<td>$password</td>";
+               echo "<td>$secret</td>";
                echo "</tr>";
 
            }

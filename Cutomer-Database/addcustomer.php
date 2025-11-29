@@ -1,5 +1,7 @@
 
 <?php
+session_start();
+$memberKey = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
 $errormessage = "";
 
 if(!empty($_POST["txtFirst"]) && !empty($_POST["txtLast"])) {
@@ -15,9 +17,10 @@ if(!empty($_POST["txtFirst"]) && !empty($_POST["txtLast"])) {
     $email = $_POST["txtEmail"];
     $password = $_POST["txtPassword"];
     try {
-        $query = "INSERT INTO Customerdatabase (Firstname, Lastname, Address, City, State, Zip_Code, Phone, Email, Password ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $hashedPassword = md5($password . $memberKey);
+        $query = "INSERT INTO Customerdatabase (Firstname, Lastname, Address, City, State, Zip_Code, Phone, Email, Password, memberkey ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         $stmt = mysqli_prepare($con, $query);
-        mysqli_stmt_bind_param($stmt, "sssssssss", $firstName, $lastName, $address, $city, $state, $zip_code,$phone, $email, $password);
+        mysqli_stmt_bind_param($stmt, "ssssssssss", $firstName, $lastName, $address, $city, $state, $zip_code,$phone, $email, $hashedPassword, $memberKey);
         mysqli_stmt_execute($stmt);
         header("Location: /Cutomer-Database/");
     } catch (mysqli_sql_exception $ex) {
