@@ -99,7 +99,7 @@
                 <p class="lead">Marathon Master lets you plan, track, and manage every part of your race event from one intuitive platform</p>
             </div>
             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="img/cogs.png" alt="">
+                <img class="img-responsive" src="img/img1.jpg" alt="">
             </div>
         </div>
 
@@ -121,7 +121,7 @@
                 <p class="lead">Access live runner data, streamline registrations, and keep your entire schedule organized with ease</p>
             </div>
             <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                <img class="img-responsive" src="img/code.jpg" alt="">
+                <img class="img-responsive" src="img/img2.jpg" alt="">
             </div>
         </div>
 
@@ -143,10 +143,9 @@
                 <p class="lead">Whether it's a community run or a major city race, Marathon Master keeps operations smooth, efficient, and stress-free </p>
             </div>
             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="img/plug.jpg" alt="">
+                <img class="img-responsive" src="img/img3.jpg" alt="">
             </div>
         </div>
-
     </div>
     <!-- /.container -->
 
