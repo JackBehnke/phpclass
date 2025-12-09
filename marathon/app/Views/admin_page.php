@@ -1,3 +1,17 @@
+<?php
+$this->session = service('session');
+$this->session->start();
+//if($this->session->get('roleID') !== null){
+//    header("Location: /marathon/public#login");
+//    exit();
+//
+//}
+if($this->session->get("roleID") != 2){
+    header("Location: /marathon/public#login");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

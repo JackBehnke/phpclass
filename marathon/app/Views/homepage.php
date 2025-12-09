@@ -10,6 +10,21 @@
     <meta name="author" content="">
 
     <title>Marathon Master</title>
+    <?php
+    $err_css = "";
+    if(isset($load_error)){
+     $load_error = null;
+     $err_css= " alert alert-danger";
+     echo "<script>document.location.href='#login' </script>";
+    }
+    ?>
+
+    <style>
+        input{
+            margin: 7px !important;
+            padding 7px;
+        }
+    </style>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -56,6 +71,9 @@
                 </li>
                 <li>
                     <a href="#contact">Contact</a>
+                </li>
+                <li>
+                    <a href="#login">Login</a>
                 </li>
             </ul>
         </div>
@@ -109,7 +127,93 @@
 </div>
 <!-- /.content-section-a -->
 
+<a  name="login"></a>
 <div class="content-section-b">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 <?=$err_css?>">
+                <?php
+                $validation = service('validation');
+                if($validation->hasError('username')){
+                    echo $validation->getError('username') . "<br/>";
+                }
+                if($validation->hasError('password')) {
+                    echo $validation->getError('password') . "<br/>";
+                }
+
+
+                if(isset($error_message)){
+                    echo $error_message;
+                }
+
+                ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+               <h2>Login</h2>
+                <?php
+
+                echo form_open('http://10.7.66.14/marathon/public/login');
+                echo form_input('username', '', 'placeholder="Username"') . "<br>";
+                echo form_password('password', '', 'placeholder="Password"') . "<br>";
+                echo form_submit('submit', 'Login');
+                echo form_close();
+
+                ?>
+            </div>
+            <div class="col-sm-5">
+                <?php
+                $validation = service('validation');
+                if($validation->hasError('username')){
+                    echo $validation->getError('username') . "<br/>";
+                }
+                if($validation->hasError('password')) {
+                    echo $validation->getError('password') . "<br/>";
+                }
+                if($validation->hasError('password2')) {
+                    echo $validation->getError('password2') . "<br/>";
+
+                }
+                if($validation->hasError('email')) {
+                    echo $validation->getError('email') . "<br/>";
+                }
+
+
+                if(isset($error_message)){
+                    echo $error_message;
+                }
+
+                ?>
+                <h2>Create Account</h2>
+                <?php
+
+                echo form_open('http://10.7.66.14/marathon/public/create');
+                echo form_input('username', '', 'placeholder="Username"') . "<br>";
+                echo form_password('password', '', 'placeholder="Password"') . "<br>";
+                echo form_password('password2', '', 'placeholder="Confirm Password"') . "<br>";
+                echo form_input('email', '', 'placeholder="Email"') . "<br>";
+                echo form_submit('submit', 'Create Account');
+                echo form_close();
+
+                ?>
+                <div class="col-sm-1"></div>
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.content-section-a -->
+
+<div class="content-section-a">
 
     <div class="container">
 
@@ -131,7 +235,7 @@
 </div>
 <!-- /.content-section-b -->
 
-<div class="content-section-a">
+<div class="content-section-b">
 
     <div class="container">
 

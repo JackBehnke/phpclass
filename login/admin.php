@@ -39,7 +39,6 @@ if($formSubmitted) {
             $stmt = mysqli_prepare($con, $query);
             mysqli_stmt_bind_param($stmt, "sssss", $txtUsername, $txtEmail, $hashedPassword, $memberKey, $cboRole);
             mysqli_stmt_execute($stmt);
-
             $txtUsername = "";
             $txtEmail = "";
             $txtPassword = "";

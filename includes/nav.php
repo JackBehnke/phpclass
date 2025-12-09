@@ -7,6 +7,7 @@ $isDice = $_SERVER['REQUEST_URI'] == '/dice/' ? 'selected' : '';
 $isMovieList = $_SERVER['REQUEST_URI'] == '/movielist/' ? 'selected' : '';
 $isCustomerDatabase =  $_SERVER['REQUEST_URI'] == '/Customer-Database/' ? 'selected' : '';
 $isLogin = $_SERVER['REQUEST_URI'] == '/login/' ? 'selected' : '';
+$isMarathon = $_SERVER['REQUEST_URI'] == '/marathon/' ? 'selected' : '';
 
 ?><nav>
 
@@ -22,5 +23,6 @@ $isLogin = $_SERVER['REQUEST_URI'] == '/login/' ? 'selected' : '';
         <li class="<?=$isMovieList?>"><a href="/movielist">Movie List</a></li>
         <li class="<?=$isCustomerDatabase?>"><a href="/Cutomer-Database">Customer Database</a></li>
         <li class="<?=$isLogin?>"><a href="/login">Login</a></li>
+        <li class="<?=$isMarathon?>"><a href="/marathon/public/" target="_blank">Marathon</a></li>
     </ul>
 </nav>

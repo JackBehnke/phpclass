@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use CodeIgniter\Model;
+
+class Member extends Model
+{
+    public function user_login($email, $passwd)
+    {
+        $db = db_connect();
+        $sql = "SELECT * FROM members WHERE memberEmail = ? and roleID = 2";
+        $query = $db->query($sql, [$email]);
+        $row = $query->getFirstRow();
+
+        if ($row != null) {
+            $hashedPassword = $row->memberPassword;
+            $memberKey = $row->memberKey;
+            $passwd = md5($passwd . $memberKey);
+            if($hashedPassword == $passwd){
+                $this->session = service('session');
+                $this->session->start();
+                $this->session->set("roleID", $row->roleID);
+                $this->session->set("UID", $row->memberID);
+
+                return true;
+            }else{
+                return false;
+            }
+
+
+
+        }else {
+            return false;
+        }
+
+    }
+
+    public function create_user($username, $email, $pass)
+    {
+            $roleID = 1;
+            $memberKey = sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+            $hashedPassword = md5($pass . $memberKey);
+            $db = db_connect();
+            $sql = "INSERT INTO members (memberName, memberEmail, memberPassword, memberKey, roleID) VALUES (?, ?, ?, ?, ?);";
+            $db->query($sql, [$username, $email, $hashedPassword, $memberKey, $roleID]);
+            return true;
+    }
+
+}
