@@ -66,16 +66,30 @@
                                 <th>Name</th>
                                 <th>Locations</th>
                                 <th>Description</th>
-                                <th>Race Date and Time</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Ryan's Run</td>
-                                <td>Main Street, Green Bay</td>
-                                <td>Run Faster than Ryan and earn $10</td>
-                                <td>12/11/2025 5 A.M.</td>
-                            </tr>
+
+                            <?php
+                            foreach ($races as $race){
+                                $name = $race['raceName'];
+                                $location = $race['raceLocation'];
+                                $date = $race['raceDateTime'];
+                                $t = strtotime($date);
+                                $id = $race['raceID'];
+                                $date = date('m/d/Y H:i', $t);
+
+
+                                echo "<tr>
+                                <td>$name</td>
+                                <td>$location</td>
+                                <td>$date</td>
+                                <td><a href='/marathon/public/update_race/$id'>Edit</a> | <a href='/marathon/public/delete_race/$id'>Delete</a></td>
+                            </tr>";
+                            }
+
+                            ?>
                             </tbody>
                         </table>
                     </div>
