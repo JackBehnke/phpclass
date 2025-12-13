@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Marathon Master</title>
+    <title>Marathon Master - Home</title>
     <?php
     $err_css = "";
     if(isset($load_error)){
