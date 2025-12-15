@@ -11,7 +11,10 @@ class Member extends Model
         try
         {
             $db = db_connect();
-            $sql = "select R.raceID from race R inner join member_race MR on R.raceID = MR.raceID inner join members ML on MR.memberID = ML.memberID where ML.memberKey = ? and MR.roleID = '2' and MR.raceID = ?;";
+            //$sql = "select R.raceID from race R inner join member_race MR on R.raceID = MR.raceID inner join members ML on MR.memberID = ML.memberID where ML.memberKey = ? and MR.roleID = '2' and MR.raceID = ?;";
+            $sql = "select ML.memberName, ML.memberEmail, ML.memberID, MR.roleID from member_race MR inner join members ML on ML.memberID where ML.memberKey = ? and MR.raceID = ? and MR.roleID = '2';";
+
+
             $query = $db->query($sql, [$memberKey, $raceID]);
             $row = $query->getFirstRow();
             if($row == null){
@@ -58,6 +61,19 @@ class Member extends Model
             return false;
         }
 
+    }
+    public function add_user($memberID, $raceID){
+       $db = db_connect();
+        $sql = "INSERT INTO member_race (memberID, raceID, roleID) VALUES (?, ?, '1');";
+        $db->query($sql, [$memberID, $raceID]);
+        return true;
+    }
+
+    public function delete_user($memberID, $raceID){
+        $db = db_connect();
+        $sql = "DELETE FROM member_race WHERE memberID = ? and raceID = ? and roleID = '1'";
+        $db->query($sql, [$memberID, $raceID]);
+        return true;
     }
 
     public function create_user($username, $email, $pass)

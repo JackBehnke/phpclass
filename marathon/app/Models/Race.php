@@ -7,15 +7,19 @@ use mysql_xdevapi\Exception;
 
 class Race extends Model
 {
-    public function get_races(){
+    public function get_races($memberKey){
 
-        $this->session = service('session');
-        $this->session->start();
-
-        $memberKey = $this->session->get("memberKey");
         $db = db_connect();
         $sql = "select R.raceID, raceName, raceLocation, racedescription, raceDateTime from race R inner join member_race MR on R.raceID = MR.raceID inner join members ML on MR.memberID = ML.memberID where ML.memberKey = '$memberKey' and MR.roleID = '2'";
         $query = $db->query($sql);
+        return $query->getResultArray();
+
+    }
+    public function get_runners($memberKey, $RaceID){
+
+        $db = db_connect();
+        $sql = "select ML.memberName, ML.memberEmail, ML.memberID, MR.roleID from member_race MR inner join members ML on ML.memberID where ML.memberKey = ? and MR.raceID = ? and MR.roleID = '1';";
+        $query = $db->query($sql, [$memberKey, $RaceID]);
         return $query->getResultArray();
 
     }
